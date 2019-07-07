@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_trip/dao/home_dao.dart';
+import 'package:flutter_app_trip/model/common_model.dart';
+import 'package:flutter_app_trip/widget/local_nav.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,11 +20,13 @@ class _HomePageState extends State<HomePage> {
 
   double _appBarAlpha = 0;
 
+  List<CommonModel> navList = [];
+
   _onScroll(offset) {
     double alpha = offset / APPBAR_SCROLL_OFFSET_MAX;
-    if(alpha < 0){
+    if (alpha < 0) {
       alpha = 0;
-    }else if(alpha > 1){
+    } else if (alpha > 1) {
       alpha = 1;
     }
     setState(() {
@@ -32,6 +37,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff2f2),
       body: Stack(
         children: <Widget>[
           MediaQuery.removePadding(
@@ -61,9 +67,10 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
+                  LocalNav(navList: navList),
                   Container(
                     height: 800,
-                    child: Text('hhhhhh'),
+                    child: Text('sssssss'),
                   ),
                 ],
               ),
@@ -86,4 +93,21 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+   loadData();
+  }
+
+  loadData(){
+    HomeDao.fetch().then((model){
+      setState(() {
+        navList = model.localNavList;
+      });
+    }).catchError((e){
+      print(e.toString());
+    });
+  }
+
 }

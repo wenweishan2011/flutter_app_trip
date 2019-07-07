@@ -10,9 +10,9 @@ class TabNavigationBar extends StatefulWidget {
 }
 
 class _TabNavigationBarState extends State<TabNavigationBar> {
-  var _currentIndex = 1;
+  var _currentIndex = 0;
   var _tabController = PageController(
-    initialPage: 1
+    initialPage: 0
   );
 
   @override
